@@ -6,6 +6,7 @@ import {LeafletMouseEvent} from 'leaflet';
 import axios from 'axios';
 
 import Dropzone from '../../components/Dropzone';
+import CustomToast from '../../components/CustomToast';
 
 import api from '../../services/api';
 
@@ -32,7 +33,7 @@ const CreatePoint = () => {
     const [ufs, setUfs] = useState<string[]>([]);
     const [cities, setCities] = useState<string[]>([]);
 
-    const[initialPosition,setInitialPosition] = useState<[number,number]>([0,0]);
+    const[initialPosition,setInitialPosition] = useState<[number,number]>([-15.7928476,-47.8845967]);
     
     const [formData, setFormData] = useState({
         name:'',
@@ -46,8 +47,10 @@ const CreatePoint = () => {
     const [selectedPosition,setSelectedPosition] = useState<[number,number]>([0,0]);
     const [selectedFile, setSelectedFile] = useState<File>();
 
-    const history = useHistory();
+    const [showToast, setShowToast] = useState(false);
 
+    const history = useHistory();
+/*
     useEffect(()=>{
         navigator.geolocation.getCurrentPosition(position =>{
             const {latitude, longitude} = position.coords;
@@ -58,7 +61,7 @@ const CreatePoint = () => {
             ]);
         });
     },[]);
-
+*/
     useEffect(() => {
         api.get('items').then(response => {
             setitems(response.data);
@@ -151,16 +154,20 @@ const CreatePoint = () => {
         if(selectedFile) {
             data.append('image', selectedFile);
         }
-
+         
+        
         await api.post('points', data);
-
-        alert('Ponto Cadastrado');
-
-        history.push('/');
+        
+        setShowToast(true);
     }
 
     return(
+
         <div id="page-create-point">
+            <CustomToast 
+                showToast={showToast} 
+                setShowToast={setShowToast}
+            />
             <header>
                 <img src={logo} alt="Ecoleta"/>
 

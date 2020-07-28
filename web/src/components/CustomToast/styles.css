@@ -1,0 +1,13 @@
+.toast{
+    position:fixed;
+    top: 8px;
+    right: 8px;
+    background-color:#fff;
+    padding:20px;
+    border: 1px #4ECB79 solid;
+    z-index: 5;
+}
+
+.toast-header {
+    color: #4ECB79;
+}
