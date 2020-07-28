@@ -1,6 +1,6 @@
 import React, {useState, useEffect, ChangeEvent, FormEvent} from 'react';
 import {FiArrowLeft} from 'react-icons/fi';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Map, TileLayer, Marker} from 'react-leaflet';
 import {LeafletMouseEvent} from 'leaflet';
 import axios from 'axios';
@@ -33,7 +33,7 @@ const CreatePoint = () => {
     const [ufs, setUfs] = useState<string[]>([]);
     const [cities, setCities] = useState<string[]>([]);
 
-    const[initialPosition,setInitialPosition] = useState<[number,number]>([-15.7928476,-47.8845967]);
+    const[initialPosition,setInitialPosition] = useState<[number,number]>([0,0]);
     
     const [formData, setFormData] = useState({
         name:'',
@@ -49,8 +49,6 @@ const CreatePoint = () => {
 
     const [showToast, setShowToast] = useState(false);
 
-    const history = useHistory();
-/*
     useEffect(()=>{
         navigator.geolocation.getCurrentPosition(position =>{
             const {latitude, longitude} = position.coords;
@@ -61,7 +59,7 @@ const CreatePoint = () => {
             ]);
         });
     },[]);
-*/
+
     useEffect(() => {
         api.get('items').then(response => {
             setitems(response.data);
